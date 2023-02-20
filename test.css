@@ -1,0 +1,11 @@
+.outer-layer{
+    padding: 50px 50px;
+    width: 100%;
+    height: auto;
+    background-color: blue;
+}
+.inner-layer{
+    width: 50%;
+    height: 50%;
+    background-color: aqua;
+}
