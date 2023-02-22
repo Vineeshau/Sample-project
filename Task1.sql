@@ -47,7 +47,7 @@ Q.Find all the details of the Nobel winners for the subject not started with the
 
 #item_mast
 Q.Display all the customers, who are either belongs to the city New York or not had a grade above 100?
-1.select * from customer where city='New York' AND grade < 100;
+1.select * from customer where city='New York' or grade < 100;
 
 #salesman table
 Q.Find those salesmen with all information who gets the commission within a range of 0.12 and 0.14?
