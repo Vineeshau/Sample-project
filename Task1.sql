@@ -29,26 +29,51 @@ insert into orders values(70001,150.5,'2016-10-05',3005,5002),(70009,270.65,'201
 insert into nobel_win values(1994,'Literature','Kenzaburo Oe', 'Japan', 'Linguist'),(1994,'Economics','Reinhard Selten', 'Germany', 'Economist'),(1987,'Chemistry','Donald J. Cram', 'USA', 'Scientist'),(1987,'Chemistry','Jean-Marie Lehn', 'France', 'Scientist'),(1987,'Literature','Joseph Brodsky', 'Russia', 'Linguist'),(1987,'Economics','Robert Solow', 'USA', 'Economist'),(1971,'Chemistry','Gerhard Herzberg', 'Germany', 'Scientist'),(1971,'Literature','Pablo Neruda', 'Chile', 'Linguist'),(1971,'Economics','Simon Kuznets', 'Russia', 'Economist'),(1970,'Literature','Aleksandar Solzhenitsyn', 'Russia', 'Linguist'),(1970,'Chemistry','Luis Federico Leloir', 'France', 'Scientist'),(1970,'Economics','Paul Samuelson', 'USA', 'Economist');
 
 #customer table
+Q.Display all the information for those customers with a grade of 200?
 1. select * from customer where grade=200;
 
 #nobel_win table
+Q. Show the winner of the 1971 prize for Literature?
 1.select * from nobel_win where year=1971 and subject='Literature';
+
+Q.Show all the details of the winners with first name Louis?
 2.select * from nobel_win where winner like 'Luis%';
+
+Q.Show all the winners of Nobel prize in the year 1970 the subject belongs to Physiology and Economics?
 3.select * from nobel_win where year=1970 and subject in ('Physiology','Economics');
+
+Q.Find all the details of the Nobel winners for the subject not started with the letter 'P' and arrangedthe list as the most recent comes first, then by name in order?
 4.select * from nobel_win where subject NOT LIKE 'P%'  ORDER BY year,winner;
 
 #item_mast
-1.select * from customer where city IN ('New York') AND grade > 100;
+Q.Display all the customers, who are either belongs to the city New York or not had a grade above 100?
+1.select * from customer where city='New York' AND grade < 100;
 
 #salesman table
+Q.Find those salesmen with all information who gets the commission within a range of 0.12 and 0.14?
 1.select * from salesman where commission between 0.12 and 0.14;
+
+Q.Find all those customers with all information whose names are ending with the letter 'n'?
 2.select * from salesman where name like '%n';
+
+Q. Find those salesmen with all information whose name containing the 1st character is 'N' and the 4th character is 'l' and rests may be any character?
 3.select * from salesman where name like 'N__l%';
+
+Q.Display name and commission of all the salesmen?
 5.select name,commission from salesman;
+
+Q.Display names and city of salesman, who belongs to the city of Paris?
 6.select name,city from salesman where city='Paris';
 
 #orders table
+Q.Find the total number of salesman in the orders table?
 1.select COUNT(salesman_id) from orders;
+
+Q.Write a SQL statement that counts all orders for a date August 17th, 2012?
 2.select COUNT(order_date) from orders where order_date='2012-08-17';
+
+Q.Display the order number, order date and the purchase amount for order(s) which will be delivered by the salesman with ID 5001?
 3.select order_no,order_date,purch_amt from orders where salesman_id=5001;
+
+Q. Find the max and min purchase amount of all orders?
 4.select MAX(purch_amt) as Maximum,MIN(purch_amt) as Minimum from orders;
