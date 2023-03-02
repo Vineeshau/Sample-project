@@ -1,6 +1,6 @@
-# # Given an array a = ['cat', 2, 'dog', 'tiger', 4, 9, 'lion', 10].
+# Given an array a = ['cat', 2, 'dog', 'tiger', 4, 9, 'lion', 10].
 a = ['cat', 2, 'dog', 'tiger', 4, 9, 'lion', 10]
-# flag = 0
+flag = 0
 empty = []
 vowels = ['a','e','i','o','u']
 sum = 0
@@ -37,15 +37,13 @@ else
 end
 puts "__________________________________________________"
 
-# #5.Return all elements having vowels
+#5.Return all elements having vowels
 a.map do |val|
 	vowels.map do |vow|
 		if val.is_a? String
-			empty = val.split('')
-			empty.map do |letter|
-				if letter == vow
-					puts val
-				end
+			if val.include?(vow)
+				puts val
+				break
 			end
 		end
 	end
@@ -69,18 +67,10 @@ puts "__________________________________________________"
 
 #8.Replace all vowels in the array with '$' symbol
 a.map do |val|
-	vowels.map do |vow|
-		if val.is_a? String
-			empty = val.split('')
-			empty.map do |letter|
-				if letter == vow
-					val.replace('$')
-				end
-			end
-		end
+	if val.is_a? String
+		puts val.gsub(/[aeiou]/i, '$')
 	end
 end
-puts a
 puts "__________________________________________________"
 
 #9.Check whether first and last element are the same
