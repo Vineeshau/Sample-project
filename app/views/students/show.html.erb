@@ -1,0 +1,14 @@
+<h1>Student Details</h1>
+
+<p><strong>First Name:</strong><%= @student.first_name %></p
+<p><strong>Last Name:</strong><%= @student.last_name %></p>
+<p><strong>Phone:</strong><%= @student.phone %></p>
+<p><strong>Email:</strong><%= @student.email %></p>
+<p><strong>Country:</strong><%= @student.country %></p>
+<p><strong>Country:</strong><% if @student.value.to_i != 0 %>
+								<td>True</td>
+							<% else %>
+								<td>False</td>
+							<% end %></p>
+<img width="260" height="190" src="<%= (url_for(@student.image.url)) %>"/><br>
+<%= link_to 'Back' , students_path %> | <%= link_to 'Edit', edit_student_path(@student) %>
