@@ -4,6 +4,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    binding.pry
+    if current_email?
+      can :read, :all
+    end
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?
