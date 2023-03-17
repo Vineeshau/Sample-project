@@ -1,0 +1,10 @@
+<h1>Showing Details of <%= @product.name %></h1>
+<div>
+	<h3>Quantity </h3>
+	<p><%= @product.quantity %></p>
+	<h3>Price</h3>
+	<p><%= @product.price %></p>
+</div>
+<div>
+	<%= link_to 'Buy' , sales_path(product_id: @product.id, customer_id: current_customer.id, quantity: @product.quantity), data: { turbo_method: "post" }  %>
+</div>
