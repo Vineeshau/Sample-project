@@ -1,20 +1,27 @@
 <h1>Sales Table</h1>
 
 <table>
-	<thead>
+		<thead>
 		<tr>
 			<th>ID</th>
 			<th>Product_id</th>
 			<th>Customer_id</th>
-			<th>Date</th>
+			<th>Quantity</th>
+			<th>Status</th>
 		</tr>
 	</thead>
+	<% @sales.each do |sale| %>
 	<tbody>
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td><%= sale.id %></td>
+			<td><%= sale.product_id %></td>
+			<td><%= sale.customer_id %></td>
+			<td><%= sale.quantity %></td>
+			<td><%= sale.payment_status %></td>
 		</tr>
 	</tbody>
+	<% end %>
 </table>
+<%= button_to 'Buy' , sales_path(product_id: @sale.product_id, payment_status: "completed") %>
+<%= button_to 'Cancel' , sales_path(product_id: @sale.product_id, payment_status: "failed") %>
+
