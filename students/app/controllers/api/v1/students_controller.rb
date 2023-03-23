@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::StudentsController < ApplicationController
+  before_action :authorize_request
   before_action :find_students, only: %i[show update destroy]
 
   def index
@@ -9,11 +10,7 @@ class Api::V1::StudentsController < ApplicationController
 
   def show
     # binding.pry
-    if @student.present?
-      render json: { message: 'Showing one student', data: @student }, status: :found
-    else
-      render json: { message: 'Student Not found' }, status: :not_found
-    end
+    render json: { message: 'Showing one student', data: @student }, status: :found
   end
 
   def create
@@ -23,25 +20,17 @@ class Api::V1::StudentsController < ApplicationController
 
   def update
     # student = Student.find(params[:id])
-    if @student.present?
-      @student.update(student_params)
-      if @student.errors.present?
-        render json: { message: @student.errors.full_messages }, status: :not_found
-      else
-        render json: { message: 'Student updated successfully', data: @student }, status: :ok
-      end
+    @student.update(student_params)
+    if @student.errors.present?
+      render json: { message: @student.errors.full_messages }, status: :not_found
     else
-      render json: { message: 'Student Not found' }, status: :not_found
+      render json: { message: 'Student updated successfully', data: @student }, status: :ok
     end
   end
 
   def destroy
-    if @student.present?
-      @student.destroy
-      render json: { message: 'Student removed successfully', data: @student }, status: :ok
-    else
-      render json: { message: 'Student Not found' }, status: :not_found
-    end
+    @student.destroy
+    render json: { message: 'Student removed successfully', data: @student }, status: :ok
   end
 
   private
@@ -52,5 +41,8 @@ class Api::V1::StudentsController < ApplicationController
 
   def find_students
     @student = Student.find_by(id: params[:id])
+    if !@student.present?
+      render json: { message: 'Student Not found' }, status: :not_found
+    end
   end
 end
