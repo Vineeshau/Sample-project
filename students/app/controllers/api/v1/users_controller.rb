@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::UsersController < ApplicationController
   before_action :authorize_request, except: :create
   before_action :find_user, except: %i[create index]
@@ -15,7 +17,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       render json: @user, status: :created
-    else 
+    else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
@@ -39,6 +41,6 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.permit( :avatar, :name, :username, :email, :password, :password_confirmation )
+    params.permit(:avatar, :name, :username, :email, :password, :password_confirmation, :role)
   end
 end

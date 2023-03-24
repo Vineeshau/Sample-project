@@ -2,14 +2,14 @@
 
 class Api::V1::StudentsController < ApplicationController
   before_action :authorize_request
-  before_action :find_students, only: %i[show update destroy]
+  before_action :find_students, only: %i[show]
+  before_action :teacher_permission, only: %i[create index update destroy]
 
   def index
     render json: { message: 'Student details', data: Student.all }, status: :accepted
   end
 
   def show
-    # binding.pry
     render json: { message: 'Showing one student', data: @student }, status: :found
   end
 
@@ -19,7 +19,6 @@ class Api::V1::StudentsController < ApplicationController
   end
 
   def update
-    # student = Student.find(params[:id])
     @student.update(student_params)
     if @student.errors.present?
       render json: { message: @student.errors.full_messages }, status: :not_found
@@ -41,8 +40,13 @@ class Api::V1::StudentsController < ApplicationController
 
   def find_students
     @student = Student.find_by(id: params[:id])
-    if !@student.present?
-      render json: { message: 'Student Not found' }, status: :not_found
+    render json: { message: 'Student Not found' }, status: :not_found unless !@student.present?
+  end
+
+  def teacher_permission
+    @permission = @current_user.role
+    if @permission == "s"
+      render json: { message: 'You are not authorized!!!' }, status: :unauthorized
     end
   end
 end
