@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :users, param: :_username
       resources :students
       resources :departments
+      get '/colleges/dept_search/:t_id', to: 'colleges#dept_search'
       resources :colleges
     end
   end

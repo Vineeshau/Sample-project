@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Api::V1::UsersController < ApplicationController
+  before_action :authorize_request
   before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index]
+  before_action :find_user, except: %i[show]
+  before_action :admin, only: %i[create index show update destroy]
 
   def index
     @users = User.all
@@ -42,5 +44,12 @@ class Api::V1::UsersController < ApplicationController
 
   def user_params
     params.permit(:avatar, :name, :username, :email, :password, :password_confirmation, :role)
+  end
+
+  def admin
+    @permission = @current_user.role
+    if @permission == 's' || @permission == 't'
+      render json: { message: "You have no permissions!!"}, status: :unauthorized
+    end
   end
 end

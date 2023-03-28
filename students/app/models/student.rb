@@ -6,4 +6,7 @@ class Student < ApplicationRecord
 
   has_one :department
   has_many :users, through: :departments
+  belongs_to :college
+  belongs_to :parent
+  has_many :marks
 end

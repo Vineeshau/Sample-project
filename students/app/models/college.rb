@@ -3,5 +3,5 @@ class College < ApplicationRecord
 
   belongs_to :user
   belongs_to :department
-  belongs_to :student
+  has_many :students
 end

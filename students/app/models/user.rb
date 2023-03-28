@@ -10,4 +10,8 @@ class User < ApplicationRecord
 
   has_many :departments
   has_many :students, through: :departments
+  has_many :colleges
+  has_many :subjects
+  has_many :exams
+  has_many :marks
 end
