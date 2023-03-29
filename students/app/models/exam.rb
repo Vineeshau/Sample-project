@@ -1,4 +1,4 @@
 class Exam < ApplicationRecord
-  belongs_to :user
-  belongs_to :department
+  belongs_to :subject
+  has_many :student_exams
 end

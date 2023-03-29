@@ -1,4 +1,4 @@
 class Subject < ApplicationRecord
-  belongs_to :users
-  belongs_to :department
+  belongs_to :teacher
+  has_many :exams
 end

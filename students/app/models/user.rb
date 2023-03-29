@@ -8,10 +8,4 @@ class User < ApplicationRecord
             length: { minimum: 6 },
             if: -> { new_record? || !password.nil? }
 
-  has_many :departments
-  has_many :students, through: :departments
-  has_many :colleges
-  has_many :subjects
-  has_many :exams
-  has_many :marks
 end

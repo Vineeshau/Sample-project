@@ -10,20 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_27_102417) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_28_102417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "colleges", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "department_id"
-    t.bigint "student_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_colleges_on_department_id"
-    t.index ["student_id"], name: "index_colleges_on_student_id"
-    t.index ["user_id"], name: "index_colleges_on_user_id"
-  end
 
   create_table "departments", force: :cascade do |t|
     t.string "dept_name"
@@ -35,34 +24,46 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_102417) do
   create_table "exams", force: :cascade do |t|
     t.string "exam_name"
     t.datetime "shedule_date"
-    t.bigint "department_id"
-    t.bigint "user_id"
+    t.bigint "subject_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_exams_on_department_id"
-    t.index ["user_id"], name: "index_exams_on_user_id"
+    t.index ["subject_id"], name: "index_exams_on_subject_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "class_name"
+    t.bigint "department_id"
+    t.bigint "teacher_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_groups_on_department_id"
+    t.index ["teacher_id"], name: "index_groups_on_teacher_id"
   end
 
   create_table "marks", force: :cascade do |t|
     t.string "sub_name"
     t.bigint "mark1"
-    t.bigint "mark2"
-    t.bigint "mark3"
-    t.bigint "student_id"
-    t.bigint "user_id"
+    t.bigint "student_exam_id"
     t.boolean "progress_report"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["student_id"], name: "index_marks_on_student_id"
-    t.index ["user_id"], name: "index_marks_on_user_id"
+    t.index ["student_exam_id"], name: "index_marks_on_student_exam_id"
   end
 
   create_table "parents", force: :cascade do |t|
     t.string "parent_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "student_exams", force: :cascade do |t|
+    t.string "exam_types"
+    t.bigint "exam_id"
     t.bigint "student_id"
-    t.index ["student_id"], name: "index_parents_on_student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exam_id"], name: "index_student_exams_on_exam_id"
+    t.index ["student_id"], name: "index_student_exams_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -70,23 +71,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_102417) do
     t.bigint "age"
     t.string "email"
     t.string "place"
+    t.bigint "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_students_on_group_id"
   end
 
   create_table "subjects", force: :cascade do |t|
     t.string "sub_name"
-    t.bigint "user_id"
-    t.bigint "department_id"
+    t.bigint "teacher_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_subjects_on_department_id"
-    t.index ["user_id"], name: "index_subjects_on_user_id"
+    t.index ["teacher_id"], name: "index_subjects_on_teacher_id"
   end
 
   create_table "teachers", force: :cascade do |t|
+    t.string "teacher_name"
+    t.bigint "department_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_teachers_on_department_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,9 +98,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_102417) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
   end
 
 end

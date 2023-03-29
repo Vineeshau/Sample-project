@@ -11,6 +11,12 @@ class Api::V1::DepartmentsController < ApplicationController
     render json: { message: "Department deatils added", data: department }, status: :created
   end
 
+  def dept_details
+    # binding.pry
+    @dept = Department.find_by(id: params[:id])
+    render json: @dept, status: :ok
+  end
+
   private
 
   def department_params

@@ -4,7 +4,7 @@ class Api::V1::StudentsController < ApplicationController
   before_action :authorize_request
   before_action :find_students, only: %i[show]
   before_action :teacher_permission, only: %i[create index update destroy]
-  before_action :admin_permission, only: %i[create index update destroy]
+  before_action :admin_permission, only: %i[create index update destroy timetable]
 
   def index
     render json: { message: 'Student details', data: Student.all }, status: :accepted
@@ -33,10 +33,15 @@ class Api::V1::StudentsController < ApplicationController
     render json: { message: 'Student removed successfully', data: @student }, status: :ok
   end
 
+  def timetable
+    @exam = Exam.all
+    render json: @exam, status: 200
+  end
+
   private
 
   def student_params
-    params.require(:student).permit(:name, :age, :email, :place)
+    params.require(:student).permit(:name, :age, :email, :place, :group_id)
   end
 
   def find_students

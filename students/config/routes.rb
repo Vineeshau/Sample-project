@@ -5,10 +5,17 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, param: :_username
+      get '/students/timetable/', to: 'students#timetable'
       resources :students
+      get '/departments/dept_details/:id', to: 'departments#dept_details'
       resources :departments
-      get '/colleges/dept_search/:t_id', to: 'colleges#dept_search'
-      resources :colleges
+      # get '/colleges/dept_search/:t_id', to: 'colleges#dept_search'
+      resources :teachers
+      resources :groups
+      resources :subjects
+      resources :exams
+      resources :student_exams
+      resources :marks
     end
   end
   # Defines the root path route ("/")

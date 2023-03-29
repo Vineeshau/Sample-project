@@ -5,6 +5,7 @@ class CreateStudents < ActiveRecord::Migration[7.0]
       t.bigint :age
       t.string :email
       t.string :place
+      t.belongs_to :group
       t.timestamps
     end
   end
