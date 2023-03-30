@@ -2,12 +2,11 @@
 
 class Api::V1::StudentsController < ApplicationController
   before_action :authorize_request
-  before_action :find_students, only: %i[show]
-  before_action :teacher_permission, only: %i[create index update destroy]
-  before_action :admin_permission, only: %i[create index update destroy timetable]
+  before_action :find_students, only: %i[show view_marks]
+  before_action :admin_permission, only: %i[create index update timetable]
 
   def index
-    render json: { message: 'Student details', data: Student.all }, status: :accepted
+    render json: { message: "All students", data: Student.all }, status: :ok
   end
 
   def show
@@ -19,6 +18,11 @@ class Api::V1::StudentsController < ApplicationController
     render json: { message: 'New student created', data: student }, status: :created
   end
 
+  def view_marks
+    @mark = Mark.where(student_exam_id: Student.find(@current_user.index).student_exams.pluck(:id))
+    render json: @mark, status: :ok 
+  end
+
   def update
     @student.update(student_params)
     if @student.errors.present?
@@ -26,11 +30,6 @@ class Api::V1::StudentsController < ApplicationController
     else
       render json: { message: 'Student updated successfully', data: @student }, status: :ok
     end
-  end
-
-  def destroy
-    @student.destroy
-    render json: { message: 'Student removed successfully', data: @student }, status: :ok
   end
 
   def timetable
@@ -47,13 +46,6 @@ class Api::V1::StudentsController < ApplicationController
   def find_students
     @student = Student.find_by(id: params[:id])
     render json: { message: 'Student Not found' }, status: :not_found unless !@student.present?
-  end
-
-  def teacher_permission
-    @permission = @current_user.role
-    if @permission == "s"
-      render json: { message: 'You are not authorized!!!' }, status: :unauthorized
-    end
   end
 
   def admin_permission

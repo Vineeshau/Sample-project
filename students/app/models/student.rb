@@ -5,6 +5,7 @@ class Student < ApplicationRecord
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
 
   belongs_to :group
+  belongs_to :parent
   has_many :marks
   has_many :student_exams
 end
