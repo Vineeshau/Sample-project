@@ -1,9 +1,11 @@
 class Api::V1::ParentsController < ApplicationController
   before_action :authorize_request
+  before_action :parent, only: %i[sighn progress_card]
 
-  def create
-    parent = Parent.create(parent_params)
-    render json: { message: "parent created", data: parent }, status: :ok
+  def sighn
+    @mark = Mark.where(student_exam_id: Student.find(@current_user.index).student_exams.pluck(:id))
+    @sign = @mark.update(mark_params)
+    render json: { message: 'Progress updated successfully', data: @sign }, status: :ok
   end
 
   def progress_card
@@ -13,7 +15,13 @@ class Api::V1::ParentsController < ApplicationController
 
   private
 
-  def parent_params
-    params.require(:parent).permit(:parent_name)
+  def mark_params
+    params.permit(:progress_report)
+  end
+
+  def parent
+    if @permission == 's' || @permission == 'a' || @permission == 't'
+      render json: { message: "You have no permissions!!"}, status: :unauthorized
+    end
   end
 end

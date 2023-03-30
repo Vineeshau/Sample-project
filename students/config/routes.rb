@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :students
       get '/departments/dept_details/:id', to: 'departments#dept_details'
       post '/departments/teacher', to: 'departments#teacher_create'
+      post '/departments/parent', to: 'departments#parent_create'
       resources :departments
       get '/teachers/student/', to: 'teachers#stud_index'
       get '/teachers/student/:id', to: 'teachers#stud_show'
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
       resources :student_exams
       resources :marks
       get '/parents/progress_card', to: 'parents#progress_card'
+      put '/parents/sighn', to: 'parents#sighn'
       resources :parents
     end
   end

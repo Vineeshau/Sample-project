@@ -3,7 +3,7 @@
 class Api::V1::StudentsController < ApplicationController
   before_action :authorize_request
   before_action :find_students, only: %i[show view_marks]
-  before_action :admin_permission, only: %i[create index update timetable]
+  before_action :admin_permission, only: %i[create index update view_marks timetable]
 
   def index
     render json: { message: "All students", data: Student.all }, status: :ok
@@ -50,7 +50,7 @@ class Api::V1::StudentsController < ApplicationController
 
   def admin_permission
     @permission = @current_user.role
-    if @permission == "s"
+    if @permission == "s" || @permission == "p"
       render json: { message: 'You are not authorized!!!' }, status: :unauthorized
     end
   end

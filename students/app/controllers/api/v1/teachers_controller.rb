@@ -1,7 +1,7 @@
 class Api::V1::TeachersController < ApplicationController
   before_action :authorize_request
   before_action :find_students, only: %i[stud_show stud_update stud_destroy]
-  before_action :teacher_permission, only: %i[create stud_show stud_update stud_destroy]
+  before_action :teacher_permission, only: %i[stud_index create stud_show stud_update stud_destroy]
 
 
   def stud_index
@@ -19,19 +19,34 @@ class Api::V1::TeachersController < ApplicationController
   end
 
   def stud_update
-    binding.pry
-    @student.update(student_params)
-    if @student.errors.present?
-      render json: { message: @student.errors.full_messages }, status: :not_found
+    @teacher = Teacher.find(@current_user.index)
+    @students = @teacher.students
+    id_arr = []
+    id_arr = @students.map {|val| val.id}
+    if id_arr.include?(@student.id)
+      @student.update(student_params)
+      if @student.errors.present?
+        render json: { message: @student.errors.full_messages }, status: :not_found
+      else
+        render json: { message: 'Student updated successfully', data: @student }, status: :ok
+      end
     else
-      render json: { message: 'Student updated successfully', data: @student }, status: :ok
-    end
+      render json: { message: "You have no permissions!!"}, status: :unauthorized
+    end      
   end
 
   def stud_destroy
-    @student.is_active = false
-    @student.save
-    render json: { message: 'Student removed successfully', data: @student }, status: :ok
+    @teacher = Teacher.find(@current_user.index)
+    @students = @teacher.students
+    id_arr = []
+    id_arr = @students.map {|val| val.id}
+    if id_arr.include?(@student.id)
+      @student.is_active = false
+      @student.save
+      render json: { message: 'Student removed successfully', data: @student }, status: :ok
+    else
+      render json: { message: "You have no permissions!!"}, status: :unauthorized
+    end 
   end
 
   private
@@ -48,15 +63,8 @@ class Api::V1::TeachersController < ApplicationController
   def teacher_permission
     @student = Student.find_by(id: params[:id])
     @permission = @current_user.role
-    if @permission == "s"
-      render json: { message: 'You are not authorized!!!' }, status: :unauthorized
-    elsif @permission == "t"
-      if @current_user.index == @student.group.teacher_id
-      else
-        render json: { message: 'You are not authorized!!!' }, status: :unauthorized
-      end
-    else
-
+    if @permission == 's' || @permission == 'a' || @permission == 'p'
+      render json: { message: "You have no permissions!!"}, status: :unauthorized
     end
   end
 end
