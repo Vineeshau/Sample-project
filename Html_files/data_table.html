@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Table datas</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+</head>
+<body>
+	<table id="stud_details">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Email</th>
+				<th>Place</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#stud_details').DataTable({
+			ajax:{
+				type: 'GET',
+				url: "http://127.0.0.1:3000/api/v1/students",
+				headers: {"Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2ODAyNDc5MzZ9.IArASccqJnQUz7SBmJnndjL6BicEaOb4ed67n4FbxtU"},
+				dataType: "json",
+				dataSrc:""
+			},
+			columns:[
+				{data: "name"},
+				{data: "age"},
+				{data: "email"},
+				{data: "place"}
+				]
+		});
+	});
+</script>
+</html>

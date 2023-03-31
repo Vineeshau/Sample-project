@@ -6,7 +6,7 @@ class Api::V1::StudentsController < ApplicationController
   before_action :admin_permission, only: %i[create index update view_marks timetable]
 
   def index
-    render json: { message: "All students", data: Student.all }, status: :ok
+    render json: Student.all.order(:id)
   end
 
   def show
@@ -40,7 +40,7 @@ class Api::V1::StudentsController < ApplicationController
   private
 
   def student_params
-    params.require(:student).permit(:name, :age, :email, :place, :group_id)
+    params.permit(:name, :age, :email, :place, :group_id, :parent_id)
   end
 
   def find_students

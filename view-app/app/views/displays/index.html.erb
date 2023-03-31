@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>  
+
+<html>  
+
+<head>  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+ 
+
+</head>  
+
+<body>  
+
+<table id="designation" >
+
+  <thead>
+
+    <tr>
+
+      <th>Name</th>
+			<th>Place</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+  </tbody>
+
+</table>
+
+</body>  
+
+<script type="text/javascript">
+
+$( document ).ready(function() {
+  $('#designation').DataTable({
+    'processing': true,
+    'serverSide': true,
+    'ordering': true,
+    'searching': true,
+    'order': [[0, 'desc']],
+    "ajax": {
+      "data": function(){
+        var info = jQuery("#designation").DataTable().page.info();
+        jQuery("#designation").DataTable().ajax.url("http://localhost:3001/api/v1/samples?page="+(info.page+1))
+      },
+      "type": 'GET',
+      "dataType": "json",
+      "dataSrc": "data"
+    },
+    "columns": [
+      {"data": "name"},
+			{"data": "place"}
+    ]
+  });
+});  
+</script>  
+</html>
+
+

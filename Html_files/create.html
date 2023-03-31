@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Create Student</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body>
+	<label>Name</label>
+	<input type="text" name="name" id="name">
+	<label>Age</label>
+	<input type="text" name="age" id="age">
+	<label>Email</label>
+	<input type="text" name="email" id="email">
+	<label>Place</label>
+	<input type="text" name="place" id="place">
+	<label>Group_Id</label>
+	<input type="text" name="group_id" id="group_id">
+	<label>Parent_Id</label>
+	<input type="text" name="parent_id" id="parent_id">
+	<button type="button" id="btn_submit">Submit</button>
+</body>
+<script type="text/javascript">
+	localStorage.setItem("Authorization","eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2ODAyNDc5MzZ9.IArASccqJnQUz7SBmJnndjL6BicEaOb4ed67n4FbxtU")
+	$("#btn_submit").click(function(){
+		var name = $("#name").val();
+		var age = $("#age").val();
+		var email = $("#email").val();
+		var place = $("#place").val();
+		var group = $("#group_id").val();
+		var parent = $("#parent_id").val();
+		
+		$.ajax({
+			type: 'POST',
+			url: "http://127.0.0.1:3000/api/v1/students",
+			headers: {"Authorization": localStorage.getItem("Authorization")},
+			data: {
+				"name": name,
+				"age": age,
+				"email": email,
+				"place": place,
+				"group_id": group,
+				"parent_id": parent
+			},
+			dataType: "json",
+			success: function(result) {console.log(result)}
+		});
+	})
+</script>
+</html>
